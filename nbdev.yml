@@ -1,0 +1,9 @@
+project:
+  output-dir: _docs
+
+website:
+  title: "yatzy"
+  site-url: "https://ranzuh.github.io/yatzy"
+  description: "custom yatzy rl environment"
+  repo-branch: master
+  repo-url: "https://github.com/ranzuh/yatzy"
