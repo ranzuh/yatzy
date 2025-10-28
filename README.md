@@ -14,14 +14,16 @@ started.
 ### Install yatzy in Development mode
 
 ``` sh
+uv sync
+
 # make sure yatzy package is installed in development mode
-$ pip install -e .
+$ uv pip install -e .
 
 # make changes under nbs/ directory
 # ...
 
 # compile to have changes apply to yatzy
-$ nbdev_prepare
+$ uv run nbdev_prepare
 ```
 
 ## Usage
