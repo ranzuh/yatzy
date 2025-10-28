@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>or – yatzy</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-000f0825b9c55ed21d14970d810c14a9.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+<meta property="og:title" content="or – yatzy">
+<meta property="og:description" content="custom yatzy rl environment">
+<meta property="og:site_name" content="yatzy">
+<meta name="twitter:title" content="or – yatzy">
+<meta name="twitter:description" content="custom yatzy rl environment">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    </a>
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">yatzy</span>
+    </a>
+  </div>
+        <div class="quarto-navbar-tools tools-end">
+</div>
+          <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./yatzy.html">or</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">yatzy</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./core.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">core</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./yatzy.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">or</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./yatzy_dup1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Yatzy RL environment</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#yatzy-program" id="toc-yatzy-program" class="nav-link active" data-scroll-target="#yatzy-program">Yatzy program</a></li>
+  <li><a href="#initial-planning" id="toc-initial-planning" class="nav-link" data-scroll-target="#initial-planning">Initial planning</a></li>
+  <li><a href="#summary-of-planning" id="toc-summary-of-planning" class="nav-link" data-scroll-target="#summary-of-planning">Summary of planning</a></li>
+  <li><a href="#planning-more-about-how-to-represent-state-and-actions" id="toc-planning-more-about-how-to-represent-state-and-actions" class="nav-link" data-scroll-target="#planning-more-about-how-to-represent-state-and-actions">Planning more about how to represent state and actions</a></li>
+  <li><a href="#back-to-implementing" id="toc-back-to-implementing" class="nav-link" data-scroll-target="#back-to-implementing">Back to implementing</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/ranzuh/yatzy/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="yatzy.html.md"><i class="bi bi-file-code"></i>CommonMark</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">or</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<!-- WARNING: THIS FILE WAS AUTOGENERATED! DO NOT EDIT! -->
+<section id="yatzy-program" class="level2">
+<h2 class="anchored" data-anchor-id="yatzy-program">Yatzy program</h2>
+</section>
+<section id="initial-planning" class="level2">
+<h2 class="anchored" data-anchor-id="initial-planning">Initial planning</h2>
+<p>Yatzy program to play with and get policy and probabilities</p>
+<p>Should have * encoding state * transition function for rules * checking terminal state and computing reward * actions to roll dice and select categories * value iteration to compute value function / policy</p>
+<p>I want to create a yatzy program that I’ve stated above. Am I missing anything?</p>
+<section id="reply" class="level5">
+<h5 class="anchored" data-anchor-id="reply">🤖Reply🤖<!-- SOLVEIT_SEPARATOR_7f3a9b2c --></h5>
+<p>Great project! Your list covers the key components for a Yatzy reinforcement learning setup. Let me check if you’ve got everything:</p>
+<p><strong>What you have:</strong> - State encoding ✓ - Transition function (rules) ✓ - Terminal state and reward ✓ - Actions ✓</p>
+<p><strong>You might also want to consider:</strong> - A <strong>scoring function</strong> for each category (ones, twos, full house, etc.) - How to handle the <strong>scorecard state</strong> (which categories have been used) - The <strong>reroll mechanism</strong> (you get up to 3 rolls per turn, choosing which dice to keep) - Whether you’re implementing <strong>single-player</strong> (maximize your score) or <strong>multi-player</strong> (beat opponents)</p>
+<p>For value iteration specifically, you’ll need a <strong>value function</strong> that estimates the expected score from any state.</p>
+<p>What’s your vision for the game? Single-player trying to maximize score, or competitive play? And do you already have a sense of how you want to encode the state?</p>
+<p>I think I could start with a single player setting. What if I want to get probability of each outcome? Should I use markov chains for that or can I use same setup I’m designing to easily get that?</p>
+</section>
+<section id="reply-1" class="level5">
+<h5 class="anchored" data-anchor-id="reply-1">🤖Reply🤖<!-- SOLVEIT_SEPARATOR_7f3a9b2c --></h5>
+<p>Good question! You can actually use the same setup for both.</p>
+<p>Your value iteration framework naturally gives you <strong>expected values</strong> (average scores), but if you want the full <strong>probability distribution</strong> of outcomes, you have a couple of options:</p>
+<ol type="1">
+<li><p><strong>Extend your existing transition function</strong> - Since you’re already building transitions (state → action → next state), you can track probabilities through these transitions. This is essentially using the Markov chain structure you’re already creating.</p></li>
+<li><p><strong>Monte Carlo simulation</strong> - Once you have your optimal policy, you can run many simulations and collect the distribution of final scores empirically.</p></li>
+</ol>
+<p>The first approach is more exact but computationally intensive. The second is simpler to implement and often sufficient.</p>
+<p>Which sounds more appealing to you? And have you thought about how you want to represent your state yet (dice values, roll number, which categories are filled)?</p>
+<p>State should have * current dice values * roll number, or rolls left, same thing I guess * which categories are filled</p>
+<p>do you think thats sufficient for state?</p>
+</section>
+<section id="reply-2" class="level5">
+<h5 class="anchored" data-anchor-id="reply-2">🤖Reply🤖<!-- SOLVEIT_SEPARATOR_7f3a9b2c --></h5>
+<p>Yes, that’s sufficient for the state! You’ve captured all the information needed to make optimal decisions:</p>
+<ul>
+<li><strong>Current dice values</strong> - what you’re working with right now</li>
+<li><strong>Rolls left</strong> - determines whether you can reroll or must score</li>
+<li><strong>Filled categories</strong> - which scoring options are still available</li>
+</ul>
+<p>One small implementation detail to consider: how will you represent the dice? For example, <code>[1, 2, 3, 3, 5]</code> vs.&nbsp;a sorted version <code>[1, 2, 3, 3, 5]</code> vs.&nbsp;counts <code>{1:1, 2:1, 3:2, 5:1}</code>. Sorting or using counts can reduce your state space significantly since <code>[1, 2, 3, 3, 5]</code> and <code>[3, 1, 5, 3, 2]</code> are functionally identical.</p>
+<p>Have you thought about how you want to represent the dice values?</p>
+<p>Sorted version is best. Rolls left can just be 2,1,0. Hmm categories filled. What options I have, a binary number or list?</p>
+</section>
+<section id="reply-3" class="level5">
+<h5 class="anchored" data-anchor-id="reply-3">🤖Reply🤖<!-- SOLVEIT_SEPARATOR_7f3a9b2c --></h5>
+<p>Good choices! Sorted dice and rolls left as <code>2, 1, 0</code> are clean.</p>
+<p>For categories filled, both options work:</p>
+<p><strong>Binary number</strong> (e.g., <code>0b1010110101</code>) - compact, efficient for hashing/lookup, but less readable</p>
+<p><strong>List/set</strong> (e.g., <code>['ones', 'full_house']</code> or <code>{0, 3, 5}</code>) - more readable, easier to debug</p>
+<p><strong>Tuple of booleans</strong> (e.g., <code>(True, False, True, ...)</code>) - middle ground, hashable for dictionaries</p>
+<p>The binary number is probably best for value iteration since you’ll have lots of states to store. You can use bit operations to check/set categories quickly.</p>
+<p>How many categories are you including? Standard Yatzy has 15 (6 upper section + 9 lower section). Are you doing full rules or a simplified version?</p>
+<p>Full rules. Should I use numpy for storing state, it has bit operations also, right?</p>
+</section>
+<section id="reply-4" class="level5">
+<h5 class="anchored" data-anchor-id="reply-4">🤖Reply🤖<!-- SOLVEIT_SEPARATOR_7f3a9b2c --></h5>
+<p>Yes, numpy has bitwise operations (<code>&amp;</code>, <code>|</code>, <code>^</code>, <code>~</code>, <code>&lt;&lt;</code>, <code>&gt;&gt;</code>), but for storing state in value iteration, you might not need numpy arrays specifically.</p>
+<p>Here’s why: your state is more like a <strong>key</strong> for looking up values in a dictionary, not a large array of numbers. Python’s built-in <code>int</code> for the binary categories works great with bitwise ops, and you can use a regular dict or numpy array indexed by state.</p>
+<p>For example: - Categories as <code>int</code>: <code>categories = 0b0001010</code> - Check if category 2 is filled: <code>categories &amp; (1 &lt;&lt; 2)</code> - Mark category 2 as filled: <code>categories | (1 &lt;&lt; 2)</code></p>
+<p>You might use numpy for dice operations (rolling, sorting) or storing your value function as an array if you enumerate all states.</p>
+<p>Are you planning to enumerate all possible states upfront, or build them dynamically as you explore?</p>
+<p>Enumerate up front. I think its common to represent states with int, like in gymnasium discrete? Do you think its better to use dict with state as key?</p>
+</section>
+<section id="reply-5" class="level5">
+<h5 class="anchored" data-anchor-id="reply-5">🤖Reply🤖<!-- SOLVEIT_SEPARATOR_7f3a9b2c --></h5>
+<p>Good point! Yes, in Gymnasium’s discrete spaces, states are typically integers (0, 1, 2, …, n). This works well when you can map your full state to a unique integer.</p>
+<p>For your case, you could create a mapping function: - Dice (sorted) → some integer - Rolls left (0-2) → multiply by some factor - Categories (binary) → shift and add</p>
+<p>Then use a numpy array indexed by this state integer for your value function: <code>V[state_int]</code>.</p>
+<p><strong>Tradeoff:</strong> - <strong>Int indexing + numpy array</strong>: faster lookup, more cache-friendly - <strong>Dict with tuple key</strong>: easier to debug (you can see <code>(dice, rolls, categories)</code> directly), simpler mapping</p>
+<p>Since you’re enumerating upfront and want performance for value iteration, the integer state indexing is probably better.</p>
+<p>Do you want to start sketching out how to encode your state as an integer, or would you like to begin with a simpler piece first (like the dice rolling or scoring functions)?</p>
+<p>Actually, when I think about it now having</p>
+<pre><code>state = (dice, rolls, categories)
+value = V[state]</code></pre>
+<p>looks very clean. That’s the dict approach right?</p>
+</section>
+<section id="reply-6" class="level5">
+<h5 class="anchored" data-anchor-id="reply-6">🤖Reply🤖<!-- SOLVEIT_SEPARATOR_7f3a9b2c --></h5>
+<p>Exactly! That’s the dict approach:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>V <span class="op">=</span> {}  <span class="co"># or defaultdict</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>state <span class="op">=</span> (<span class="bu">tuple</span>(sorted_dice), rolls_left, categories_int)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>value <span class="op">=</span> V[state]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The tuple is hashable (so it works as a dict key), and you’re right—it’s very clean and readable. You can directly see what each state represents when debugging.</p>
+<p>The performance difference between dict and array indexing probably won’t matter much unless you’re doing millions of iterations. And dict has a nice bonus: you only store states you actually visit, which could save memory.</p>
+<p>Sounds like you have a good plan! What would you like to tackle first—the state encoding, the scoring functions, or the transition/action logic?</p>
+<p>Can you give me the readable options for categories that would work well with the dict approach?</p>
+</section>
+<section id="reply-7" class="level5">
+<h5 class="anchored" data-anchor-id="reply-7">🤖Reply🤖<!-- SOLVEIT_SEPARATOR_7f3a9b2c --></h5>
+<p>Sure! Here are some readable options for categories:</p>
+<p><strong>Option 1: Named tuple or dict keys</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>categories <span class="op">=</span> {<span class="st">'ones'</span>: <span class="va">True</span>, <span class="st">'twos'</span>: <span class="va">False</span>, <span class="st">'threes'</span>: <span class="va">True</span>, ...}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Option 2: Set of used categories</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>categories <span class="op">=</span> {<span class="st">'ones'</span>, <span class="st">'full_house'</span>, <span class="st">'chance'</span>}  <span class="co"># just the filled ones</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Option 3: Frozenset (hashable set)</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>categories <span class="op">=</span> <span class="bu">frozenset</span>([<span class="st">'ones'</span>, <span class="st">'full_house'</span>])  <span class="co"># can be dict key</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>For your dict state approach, <strong>Option 3 (frozenset)</strong> works best because: - It’s hashable (required for dict keys) - You only store what’s used (compact) - Easy to check: <code>'ones' in categories</code> - Easy to add: <code>categories | {'twos'}</code></p>
+<p>Would you like to use frozenset, or do you prefer keeping the binary int approach for compactness?</p>
+<p>What are the differences between options 1 and 3?</p>
+</section>
+<section id="reply-8" class="level5">
+<h5 class="anchored" data-anchor-id="reply-8">🤖Reply🤖<!-- SOLVEIT_SEPARATOR_7f3a9b2c --></h5>
+<p>Good question! The key difference is <strong>hashability</strong>:</p>
+<p><strong>Option 1 (dict):</strong> - <code>{'ones': True, 'twos': False, ...}</code> is <strong>not hashable</strong> - Can’t use it as a dict key: <code>V[state]</code> would fail - You’d need to convert it (e.g., to a frozenset or tuple of items)</p>
+<p><strong>Option 3 (frozenset):</strong> - <code>frozenset(['ones', 'full_house'])</code> <strong>is hashable</strong> - Works directly as dict key: <code>V[(dice, rolls, categories)]</code> ✓ - Immutable (can’t accidentally modify it)</p>
+<p>So Option 1 looks nice but doesn’t work for your <code>state</code> tuple without extra conversion. Option 3 works out of the box.</p>
+<p>Does that clarify the tradeoff?</p>
+<p>Another option would be to have an efficient way to store state and then have a function to get the human readable version.</p>
+</section>
+<section id="reply-9" class="level5">
+<h5 class="anchored" data-anchor-id="reply-9">🤖Reply🤖<!-- SOLVEIT_SEPARATOR_7f3a9b2c --></h5>
+<p>That’s a smart approach! You get the best of both worlds:</p>
+<p><strong>Efficient storage:</strong> Use int for categories (or even encode the whole state as one int)</p>
+<p><strong>Readable debugging:</strong> Have a helper function like <code>state_to_readable(state)</code> that converts it when you need to inspect it</p>
+<p>This is actually a common pattern in RL implementations. You could have: - <code>encode_state(dice, rolls, categories)</code> → compact representation - <code>decode_state(state)</code> → human-readable format</p>
+<p>The compact version stays in your dict keys and value iteration, but you can always decode when debugging or analyzing results.</p>
+<p>Do you want to go with this approach? And if so, would you keep categories as int and just decode those, or encode the entire state into a single int?</p>
+<p>Is it easy to implement later? What would be a good plan to start iterating and experimenting the quickest?</p>
+</section>
+<section id="reply-10" class="level5">
+<h5 class="anchored" data-anchor-id="reply-10">🤖Reply🤖<!-- SOLVEIT_SEPARATOR_7f3a9b2c --></h5>
+<p>Great pragmatic question! Here’s the quickest path to start experimenting:</p>
+<p><strong>Start simple, optimize later:</strong></p>
+<ol type="1">
+<li>Use the readable approach first: <code>state = (tuple(dice), rolls_left, frozenset(categories))</code></li>
+<li>Get your basic game logic working (scoring, transitions, actions)</li>
+<li>Test with small examples</li>
+<li>If performance becomes an issue, add encoding functions later</li>
+</ol>
+<p>This way you can: - Debug easily (see exactly what’s happening) - Iterate quickly on game logic - Add the int encoding wrapper later without changing core logic</p>
+<p>The encoding functions are straightforward to add once everything works. Premature optimization can slow you down.</p>
+<p>Does starting with the readable version and refactoring later sound good? Or do you have performance concerns from the start?</p>
+<p>What are advantages of frozenset vs tuple or strings?</p>
+</section>
+<section id="reply-11" class="level5">
+<h5 class="anchored" data-anchor-id="reply-11">🤖Reply🤖<!-- SOLVEIT_SEPARATOR_7f3a9b2c --></h5>
+<p>Good question! Here are the key differences:</p>
+<p><strong>Frozenset:</strong> - Unordered: <code>frozenset(['ones', 'twos'])</code> == <code>frozenset(['twos', 'ones'])</code> - Easy membership check: <code>'ones' in categories</code> - Natural for “which categories are filled” (order doesn’t matter)</p>
+<p><strong>Tuple:</strong> - Ordered: <code>('ones', 'twos')</code> ≠ <code>('twos', 'ones')</code> - You’d need to keep it sorted to avoid duplicate states - Still hashable and works as dict key</p>
+<p><strong>Strings:</strong> - Could do something like <code>'ones,twos,full_house'</code> - Harder to check membership or add categories - More manual string manipulation</p>
+<p>For your use case (tracking which categories are used), <strong>frozenset</strong> is most natural since the order you filled categories doesn’t matter for game state.</p>
+<p>Does that help you decide which to use?</p>
+</section>
+</section>
+<section id="summary-of-planning" class="level2">
+<h2 class="anchored" data-anchor-id="summary-of-planning">Summary of planning</h2>
+<p>Okay can you summarise all the decisions I made and have a clear plan to start working next</p>
+<section id="reply-12" class="level5">
+<h5 class="anchored" data-anchor-id="reply-12">🤖Reply🤖<!-- SOLVEIT_SEPARATOR_7f3a9b2c --></h5>
+<p><strong>Your Decisions:</strong></p>
+<ol type="1">
+<li><strong>Single-player</strong> Yatzy to maximize score</li>
+<li><strong>State representation:</strong> <code>(tuple(sorted_dice), rolls_left, frozenset(filled_categories))</code></li>
+<li><strong>Use dict</strong> for value function: <code>V[state] = value</code></li>
+<li><strong>Start with readable format</strong>, optimize encoding later if needed</li>
+<li><strong>Full Yatzy rules</strong> (15 categories)</li>
+</ol>
+<p><strong>Plan to Start:</strong></p>
+<ol type="1">
+<li>Define the 15 category names (as strings for frozenset)</li>
+<li>Write scoring functions for each category</li>
+<li>Implement dice rolling and state transitions</li>
+<li>Define valid actions (which dice to keep, which category to score)</li>
+<li>Build value iteration algorithm</li>
+<li>Test and iterate</li>
+</ol>
+<p><strong>Immediate next step:</strong> Would you like to start by defining the category names and writing a few scoring functions (like “ones”, “full house”, “yatzy”)? Or would you prefer to begin with the dice rolling mechanics?</p>
+<div id="099c6679" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># categories</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>categories <span class="op">=</span> <span class="bu">set</span>([</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ones"</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"twos"</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"threes"</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"fours"</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"fives"</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"sixes"</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"one_pair"</span>,</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"two_pairs"</span>,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"three_same"</span>,</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"four_same"</span>,</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"small_straight"</span>,</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"large_straight"</span>,</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"full_house"</span>,</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"chance"</span>,</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"yatzy"</span>,</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>categories</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre><code>{'chance',
+ 'fives',
+ 'four_same',
+ 'fours',
+ 'full_house',
+ 'large_straight',
+ 'one_pair',
+ 'ones',
+ 'sixes',
+ 'small_straight',
+ 'three_same',
+ 'threes',
+ 'two_pairs',
+ 'twos',
+ 'yatzy'}</code></pre>
+</div>
+</div>
+<div id="726be0cd" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dice values</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>dice_vals <span class="op">=</span> [<span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">1</span>]</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>sorted_vals <span class="op">=</span> <span class="bu">tuple</span>(<span class="bu">sorted</span>(dice_vals))</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>sorted_vals</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre><code>(1, 2, 3, 4, 5)</code></pre>
+</div>
+</div>
+<div id="dfc50c01" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>score <span class="op">=</span> <span class="bu">sum</span>(sorted_vals)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>score</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre><code>15</code></pre>
+</div>
+</div>
+<div id="c07289ed" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>random.choices([<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>], k<span class="op">=</span><span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre><code>[1, 3, 5, 2, 3]</code></pre>
+</div>
+</div>
+<div id="37c9befc" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> roll_n_dice(n):</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> random.choices([<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>], k<span class="op">=</span>n)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>roll_n_dice(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre><code>[5, 3, 2, 3, 6]</code></pre>
+</div>
+</div>
+<div id="6c52e561" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>state <span class="op">=</span> (sorted_vals, <span class="dv">2</span>, <span class="bu">frozenset</span>(random.sample(<span class="bu">sorted</span>(categories), <span class="dv">3</span>)))</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>state</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre><code>((1, 2, 3, 4, 5), 2, frozenset({'sixes', 'threes', 'twos'}))</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="planning-more-about-how-to-represent-state-and-actions" class="level2">
+<h2 class="anchored" data-anchor-id="planning-more-about-how-to-represent-state-and-actions">Planning more about how to represent state and actions</h2>
+<p>What do you think about encoding actions? What other options I could have?</p>
+<section id="reply-13" class="level5">
+<h5 class="anchored" data-anchor-id="reply-13">🤖Reply🤖<!-- SOLVEIT_SEPARATOR_7f3a9b2c --></h5>
+<p>Good thinking on the action structure! Your approach captures the three types of actions. Here are some encoding options:</p>
+<p><strong>Option 1: Your tuple approach</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>action <span class="op">=</span> (reroll_mask, score_category, zero_category)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Simple, but only one field should be non-None at a time.</p>
+<p><strong>Option 2: Tagged tuple</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>action <span class="op">=</span> (<span class="st">'reroll'</span>, [<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>])  <span class="co"># or</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>action <span class="op">=</span> (<span class="st">'score'</span>, <span class="st">'small_straight'</span>)  <span class="co"># or</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>action <span class="op">=</span> (<span class="st">'zero'</span>, <span class="st">'ones'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>More explicit about action type.</p>
+<p><strong>Option 3: Single value with different types</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>action <span class="op">=</span> [<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>]  <span class="co"># reroll (list/tuple)</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>action <span class="op">=</span> <span class="st">'small_straight'</span>  <span class="co"># score (string)</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>action <span class="op">=</span> (<span class="st">'zero'</span>, <span class="st">'ones'</span>)  <span class="co"># zero out (tuple)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Python’s dynamic typing lets you distinguish by type.</p>
+<p><strong>Option 4: Integer encoding</strong> Map all possible actions to integers (0-N), like Gymnasium discrete actions.</p>
+<p>Which feels most natural to you? Option 2 is probably clearest for debugging, while Option 4 would be most efficient if you need it later.</p>
+<p>Are there other options similar to tagged tuple?</p>
+</section>
+<section id="reply-14" class="level5">
+<h5 class="anchored" data-anchor-id="reply-14">🤖Reply🤖<!-- SOLVEIT_SEPARATOR_7f3a9b2c --></h5>
+<p>Yes! Here are some similar options to tagged tuples:</p>
+<p><strong>Named tuple:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> namedtuple</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>Action <span class="op">=</span> namedtuple(<span class="st">'Action'</span>, [<span class="st">'type'</span>, <span class="st">'value'</span>])</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>action <span class="op">=</span> Action(<span class="st">'reroll'</span>, [<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>])</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>action <span class="op">=</span> Action(<span class="st">'score'</span>, <span class="st">'small_straight'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Dataclass:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dataclasses <span class="im">import</span> dataclass</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="at">@dataclass</span>(frozen<span class="op">=</span><span class="va">True</span>)  <span class="co"># frozen makes it hashable</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Action:</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">type</span>: <span class="bu">str</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    value: <span class="bu">any</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Dictionary:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>action <span class="op">=</span> {<span class="st">'type'</span>: <span class="st">'reroll'</span>, <span class="st">'value'</span>: [<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>]}</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>action <span class="op">=</span> {<span class="st">'type'</span>: <span class="st">'score'</span>, <span class="st">'category'</span>: <span class="st">'small_straight'</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>(Not hashable unless you convert it)</p>
+<p><strong>Enum + value:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> enum <span class="im">import</span> Enum</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ActionType(Enum):</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    REROLL <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    SCORE <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    ZERO <span class="op">=</span> <span class="dv">3</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>action <span class="op">=</span> (ActionType.REROLL, [<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Named tuple and dataclass give you nice attribute access (<code>action.type</code>, <code>action.value</code>) while staying hashable. Do any of these appeal to you more than the plain tagged tuple?</p>
+</section>
+</section>
+<section id="back-to-implementing" class="level2">
+<h2 class="anchored" data-anchor-id="back-to-implementing">Back to implementing</h2>
+<div id="90ba0bd7" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dataclasses <span class="im">import</span> dataclass</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="at">@dataclass</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> State:</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    dice_values: <span class="bu">tuple</span>[<span class="bu">int</span>, ...]</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    rolls_left: <span class="bu">int</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    categories_picked: <span class="bu">frozenset</span>[<span class="bu">str</span>]</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>state <span class="op">=</span> State((<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>), <span class="dv">2</span>, <span class="bu">frozenset</span>({<span class="st">'chance'</span>, <span class="st">'large_straight'</span>, <span class="st">'yatzy'</span>}))</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>state</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre><code>State(dice_values=(1, 2, 3, 4, 5), rolls_left=2, categories_picked=frozenset({'large_straight', 'chance', 'yatzy'}))</code></pre>
+</div>
+</div>
+<div id="a6cec164" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> Literal</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="at">@dataclass</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Action:</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">type</span>: Literal[<span class="st">"reroll"</span>, <span class="st">"score"</span>, <span class="st">"zero"</span>]</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    value: <span class="bu">tuple</span>[<span class="bu">int</span>, ...] <span class="op">|</span> <span class="bu">str</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>Action(<span class="st">"reroll"</span>, (<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre><code>Action(type='reroll', value=(0, 0, 1, 0, 0))</code></pre>
+</div>
+</div>
+<div id="60b799c4" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> itertools</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>reroll_masks <span class="op">=</span> <span class="bu">list</span>(itertools.combinations_with_replacement((<span class="dv">0</span>,<span class="dv">1</span>), <span class="dv">5</span>))</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>reroll_masks</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre><code>[(0, 0, 0, 0, 0),
+ (0, 0, 0, 0, 1),
+ (0, 0, 0, 1, 1),
+ (0, 0, 1, 1, 1),
+ (0, 1, 1, 1, 1),
+ (1, 1, 1, 1, 1)]</code></pre>
+</div>
+</div>
+<div id="d52000ff" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>available_actions <span class="op">=</span> []</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> state.rolls_left <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    rerolls <span class="op">=</span> [Action(<span class="st">"reroll"</span>, mask) <span class="cf">for</span> mask <span class="kw">in</span> reroll_masks]</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    available_actions.extend(rerolls)</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>available_actions</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre><code>[Action(type='reroll', value=(0, 0, 0, 0, 0)),
+ Action(type='reroll', value=(0, 0, 0, 0, 1)),
+ Action(type='reroll', value=(0, 0, 0, 1, 1)),
+ Action(type='reroll', value=(0, 0, 1, 1, 1)),
+ Action(type='reroll', value=(0, 1, 1, 1, 1)),
+ Action(type='reroll', value=(1, 1, 1, 1, 1))]</code></pre>
+</div>
+</div>
+<div id="6f0191fa" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>can_zero <span class="op">=</span> categories <span class="op">-</span> state.categories_picked</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>can_zero</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre><code>{'fives',
+ 'four_same',
+ 'fours',
+ 'full_house',
+ 'one_pair',
+ 'ones',
+ 'sixes',
+ 'small_straight',
+ 'three_same',
+ 'threes',
+ 'two_pairs',
+ 'twos'}</code></pre>
+</div>
+</div>
+<p>I need checker functions for * has_ones, has_twos, has_threes, … I think I could have has_num(n) or something * has_pair * has_two_pairs * has_three_same * has_four_same * has_small_straight * has_large_straight * has_full_house * has_yatzy</p>
+<p>Can you summarise where I’m at, whats still missing?</p>
+<section id="reply-15" class="level5">
+<h5 class="anchored" data-anchor-id="reply-15">🤖Reply🤖<!-- SOLVEIT_SEPARATOR_7f3a9b2c --></h5>
+<p><strong>Where you’re at:</strong></p>
+<ul>
+<li>✅ State representation (dataclass with dice, rolls_left, categories_picked)</li>
+<li>✅ Action representation (dataclass with type and value)</li>
+<li>✅ Category names defined</li>
+<li>✅ Basic dice rolling function</li>
+<li>✅ Started on available actions (reroll actions working)</li>
+</ul>
+<p><strong>Still missing:</strong></p>
+<ol type="1">
+<li><strong>Checker functions</strong> - detect patterns in dice (pairs, straights, full house, etc.)</li>
+<li><strong>Scoring functions</strong> - calculate points for each category given dice</li>
+<li><strong>Complete available actions</strong> - add “score” and “zero” actions based on what’s valid</li>
+<li><strong>Transition function</strong> - apply action to state and get next state</li>
+<li><strong>Reward/terminal logic</strong> - when game ends and final score calculation</li>
+<li><strong>Value iteration</strong> - the RL algorithm itself</li>
+</ol>
+<p><strong>Immediate next step:</strong> The checker functions you listed seem like a natural next piece. Once you have those, scoring becomes straightforward.</p>
+<p>Do you want to start implementing the checker functions, or tackle something else first?</p>
+<div id="2da10dc3" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>values <span class="op">=</span> state.dice_values</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="co"># has ones</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="kw">in</span> values</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="co"># n in values</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> Counter</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>Counter(values)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre><code>Counter({1: 1, 2: 1, 3: 1, 4: 1, 5: 1})</code></pre>
+</div>
+</div>
+<p>How can I use counter to get keys that have certain value?</p>
+</section>
+<section id="reply-16" class="level5">
+<h5 class="anchored" data-anchor-id="reply-16">🤖Reply🤖<!-- SOLVEIT_SEPARATOR_7f3a9b2c --></h5>
+<p>You can filter the Counter by checking the counts:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>counts <span class="op">=</span> Counter(values)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Keys with count &gt;= 2</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>pairs <span class="op">=</span> [k <span class="cf">for</span> k, v <span class="kw">in</span> counts.items() <span class="cf">if</span> v <span class="op">&gt;=</span> <span class="dv">2</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Or to check if any value has a certain count:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>has_pair <span class="op">=</span> <span class="bu">any</span>(count <span class="op">&gt;=</span> <span class="dv">2</span> <span class="cf">for</span> count <span class="kw">in</span> counts.values())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Does this help you think about how to implement your checker functions?</p>
+<div id="763a4b00" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>counts <span class="op">=</span> Counter((<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">3</span>))</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Keys with count &gt;= 2</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>pairs <span class="op">=</span> [k <span class="cf">for</span> k, v <span class="kw">in</span> counts.items() <span class="cf">if</span> v <span class="op">&gt;=</span> <span class="dv">2</span>]</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>pairs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre><code>[1, 2]</code></pre>
+</div>
+</div>
+<div id="ff197f00" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>counts <span class="op">=</span> Counter((<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">3</span>))</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>three_sames <span class="op">=</span> [k <span class="cf">for</span> k, v <span class="kw">in</span> counts.items() <span class="cf">if</span> v <span class="op">&gt;=</span> <span class="dv">3</span>]</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>three_sames</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre><code>[2]</code></pre>
+</div>
+</div>
+<div id="e528f9e0" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>counts <span class="op">=</span> Counter((<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">5</span>))</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>four_sames <span class="op">=</span> [k <span class="cf">for</span> k, v <span class="kw">in</span> counts.items() <span class="cf">if</span> v <span class="op">&gt;=</span> <span class="dv">4</span>]</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>four_sames</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre><code>[5]</code></pre>
+</div>
+</div>
+<div id="727d3080" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>counts <span class="op">=</span> Counter((<span class="dv">6</span>,<span class="dv">6</span>,<span class="dv">6</span>,<span class="dv">6</span>,<span class="dv">6</span>))</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>yatzy <span class="op">=</span> [k <span class="cf">for</span> k, v <span class="kw">in</span> counts.items() <span class="cf">if</span> v <span class="op">&gt;=</span> <span class="dv">5</span>]</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>yatzy</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre><code>[6]</code></pre>
+</div>
+</div>
+<div id="130bd433" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Full house</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>counts <span class="op">=</span> Counter((<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">6</span>))</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>pairs <span class="op">=</span> [k <span class="cf">for</span> k, v <span class="kw">in</span> counts.items() <span class="cf">if</span> v <span class="op">&gt;=</span> <span class="dv">2</span>]</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>three_sames <span class="op">=</span> [k <span class="cf">for</span> k, v <span class="kw">in</span> counts.items() <span class="cf">if</span> v <span class="op">&gt;=</span> <span class="dv">3</span>]</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>pairs.remove(three_sames[<span class="dv">0</span>])</span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(pairs) <span class="op">&gt;</span> <span class="dv">0</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre><code>True</code></pre>
+</div>
+</div>
+<div id="41c72405" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># small straight</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>values <span class="op">=</span> (<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>)</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>values <span class="op">==</span> (<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>)</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a><span class="co"># large straight</span></span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>values <span class="op">=</span> (<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>)</span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>values <span class="op">==</span> (<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre><code>True</code></pre>
+</div>
+</div>
+<div id="2c1373cc" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> has_ns(n, values):</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> n <span class="kw">in</span> values</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> has_ns(<span class="dv">3</span>, (<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>))</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="kw">not</span> has_ns(<span class="dv">6</span>, (<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>))</span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> n_same(n, values):</span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a>    counts <span class="op">=</span> Counter(values)</span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [k <span class="cf">for</span> k, v <span class="kw">in</span> counts.items() <span class="cf">if</span> v <span class="op">&gt;=</span> n]</span>
+<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-11"><a href="#cb51-11" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> n_same(<span class="dv">2</span>, (<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">3</span>)) <span class="op">==</span> [<span class="dv">2</span>, <span class="dv">3</span>]</span>
+<span id="cb51-12"><a href="#cb51-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-13"><a href="#cb51-13" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> has_n_same(n, values):</span>
+<span id="cb51-14"><a href="#cb51-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">bool</span>(n_same(n, values))</span>
+<span id="cb51-15"><a href="#cb51-15" aria-hidden="true" tabindex="-1"></a><span class="co">#def has_pair(values):</span></span>
+<span id="cb51-16"><a href="#cb51-16" aria-hidden="true" tabindex="-1"></a><span class="co">#    return n_same(values, 2)</span></span>
+<span id="cb51-17"><a href="#cb51-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-18"><a href="#cb51-18" aria-hidden="true" tabindex="-1"></a><span class="co">#def has_three_same(values):</span></span>
+<span id="cb51-19"><a href="#cb51-19" aria-hidden="true" tabindex="-1"></a><span class="co">#    return n_same(values, 3)</span></span>
+<span id="cb51-20"><a href="#cb51-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-21"><a href="#cb51-21" aria-hidden="true" tabindex="-1"></a><span class="co">#def has_four_same(values):</span></span>
+<span id="cb51-22"><a href="#cb51-22" aria-hidden="true" tabindex="-1"></a><span class="co">#    return n_same(values, 4)</span></span>
+<span id="cb51-23"><a href="#cb51-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-24"><a href="#cb51-24" aria-hidden="true" tabindex="-1"></a><span class="co">#def has_yatzy(values):</span></span>
+<span id="cb51-25"><a href="#cb51-25" aria-hidden="true" tabindex="-1"></a><span class="co">#    return n_same(values, 5)</span></span>
+<span id="cb51-26"><a href="#cb51-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-27"><a href="#cb51-27" aria-hidden="true" tabindex="-1"></a><span class="co">#assert has_yatzy((1,1,1,1,1))</span></span>
+<span id="cb51-28"><a href="#cb51-28" aria-hidden="true" tabindex="-1"></a><span class="co">#assert not has_yatzy((1,1,1,1,2))</span></span>
+<span id="cb51-29"><a href="#cb51-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-30"><a href="#cb51-30" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> has_two_pairs(values):</span>
+<span id="cb51-31"><a href="#cb51-31" aria-hidden="true" tabindex="-1"></a>    pairs <span class="op">=</span> n_same(<span class="dv">2</span>, values)</span>
+<span id="cb51-32"><a href="#cb51-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(pairs) <span class="op">==</span> <span class="dv">2</span>:</span>
+<span id="cb51-33"><a href="#cb51-33" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">True</span></span>
+<span id="cb51-34"><a href="#cb51-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">False</span></span>
+<span id="cb51-35"><a href="#cb51-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-36"><a href="#cb51-36" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> has_two_pairs((<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>))</span>
+<span id="cb51-37"><a href="#cb51-37" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="kw">not</span> has_two_pairs((<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>))</span>
+<span id="cb51-38"><a href="#cb51-38" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="kw">not</span> has_two_pairs((<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb51-39"><a href="#cb51-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-40"><a href="#cb51-40" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> has_full_house(values):</span>
+<span id="cb51-41"><a href="#cb51-41" aria-hidden="true" tabindex="-1"></a>    pairs <span class="op">=</span> n_same(<span class="dv">2</span>, values)</span>
+<span id="cb51-42"><a href="#cb51-42" aria-hidden="true" tabindex="-1"></a>    three_sames <span class="op">=</span> n_same(<span class="dv">3</span>, values)</span>
+<span id="cb51-43"><a href="#cb51-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> pairs <span class="kw">and</span> three_sames:</span>
+<span id="cb51-44"><a href="#cb51-44" aria-hidden="true" tabindex="-1"></a>        pairs.remove(three_sames[<span class="dv">0</span>])</span>
+<span id="cb51-45"><a href="#cb51-45" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">len</span>(pairs) <span class="op">&gt;</span> <span class="dv">0</span></span>
+<span id="cb51-46"><a href="#cb51-46" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">False</span></span>
+<span id="cb51-47"><a href="#cb51-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-48"><a href="#cb51-48" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> has_full_house((<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">3</span>))</span>
+<span id="cb51-49"><a href="#cb51-49" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="kw">not</span> has_full_house((<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">3</span>))</span>
+<span id="cb51-50"><a href="#cb51-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-51"><a href="#cb51-51" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> has_small_straight(values):</span>
+<span id="cb51-52"><a href="#cb51-52" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> values <span class="op">==</span> (<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>)</span>
+<span id="cb51-53"><a href="#cb51-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-54"><a href="#cb51-54" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> has_large_straight(values):</span>
+<span id="cb51-55"><a href="#cb51-55" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> values <span class="op">==</span> (<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="8df760ba" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> score_n(value, values): </span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> values.count(value)</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> value <span class="op">*</span> n</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> score_n(<span class="dv">1</span>, (<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>)) <span class="op">==</span> <span class="dv">3</span></span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> score_same(n, values): </span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># todo</span></span>
+<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> value <span class="op">*</span> n</span>
+<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> score_yatzy(value): <span class="cf">return</span> value <span class="op">*</span> <span class="dv">5</span> <span class="op">+</span> <span class="dv">50</span></span>
+<span id="cb52-12"><a href="#cb52-12" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> score_two_pairs(pair1, pair2): <span class="cf">return</span> <span class="dv">2</span> <span class="op">*</span> pair1 <span class="op">+</span> <span class="dv">2</span> <span class="op">*</span> pair2</span>
+<span id="cb52-13"><a href="#cb52-13" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> score_full_house(pair_value, three_value): <span class="cf">return</span> <span class="dv">2</span> <span class="op">*</span> pair_value <span class="op">+</span> <span class="dv">3</span> <span class="op">*</span> three_value</span>
+<span id="cb52-14"><a href="#cb52-14" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> score_small_straight(): <span class="cf">return</span> <span class="dv">15</span></span>
+<span id="cb52-15"><a href="#cb52-15" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> score_large_straight(): <span class="cf">return</span> <span class="dv">20</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="f792b036" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>can_zero</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre><code>{'fives',
+ 'four_same',
+ 'fours',
+ 'full_house',
+ 'one_pair',
+ 'ones',
+ 'sixes',
+ 'small_straight',
+ 'three_same',
+ 'threes',
+ 'two_pairs',
+ 'twos'}</code></pre>
+</div>
+</div>
+<div id="6f28fa69" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> functools <span class="im">import</span> partial</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>checkers <span class="op">=</span> {</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ones"</span>: partial(has_ns, <span class="dv">1</span>),</span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"twos"</span>: partial(has_ns, <span class="dv">2</span>),</span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"threes"</span>: partial(has_ns, <span class="dv">3</span>),</span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"fours"</span>: partial(has_ns, <span class="dv">4</span>),</span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"fives"</span>: partial(has_ns, <span class="dv">5</span>),</span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"sixes"</span>: partial(has_ns, <span class="dv">6</span>),</span>
+<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"one_pair"</span>: partial(has_n_same, <span class="dv">2</span>),</span>
+<span id="cb55-11"><a href="#cb55-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"two_pairs"</span>: has_two_pairs,</span>
+<span id="cb55-12"><a href="#cb55-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"three_same"</span>: partial(has_n_same, <span class="dv">3</span>),</span>
+<span id="cb55-13"><a href="#cb55-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"four_same"</span>: partial(has_n_same, <span class="dv">4</span>),</span>
+<span id="cb55-14"><a href="#cb55-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"small_straight"</span>: has_small_straight,</span>
+<span id="cb55-15"><a href="#cb55-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"large_straight"</span>: has_large_straight,</span>
+<span id="cb55-16"><a href="#cb55-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"full_house"</span>: has_full_house,</span>
+<span id="cb55-17"><a href="#cb55-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"chance"</span>: <span class="kw">lambda</span> x: x, <span class="co"># ???</span></span>
+<span id="cb55-18"><a href="#cb55-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"yatzy"</span>: partial(n_same, <span class="dv">5</span>),</span>
+<span id="cb55-19"><a href="#cb55-19" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="3c703b93" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> category <span class="kw">in</span> can_zero:</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>    can_select <span class="op">=</span> checkers[category](state.dice_values)</span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(category, can_select)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>two_pairs False
+threes True
+small_straight True
+fours True
+four_same False
+one_pair False
+twos True
+ones True
+sixes False
+three_same False
+full_house False
+fives True</code></pre>
+</div>
+</div>
+<div id="8cabff83" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>scorers <span class="op">=</span> {</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ones"</span>: partial(score_n, <span class="dv">1</span>),</span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"twos"</span>: partial(score_n, <span class="dv">2</span>),</span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"threes"</span>: partial(score_n, <span class="dv">3</span>),</span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"fours"</span>: partial(score_n, <span class="dv">4</span>),</span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"fives"</span>: partial(score_n, <span class="dv">5</span>),</span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"sixes"</span>: partial(score_n, <span class="dv">6</span>),</span>
+<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"one_pair"</span>: partial(score_same, <span class="dv">2</span>),</span>
+<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"two_pairs"</span>: score_two_pairs,</span>
+<span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"three_same"</span>: partial(score_same, <span class="dv">3</span>),</span>
+<span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"four_same"</span>: partial(score_same, <span class="dv">4</span>),</span>
+<span id="cb58-12"><a href="#cb58-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"small_straight"</span>: score_small_straight,</span>
+<span id="cb58-13"><a href="#cb58-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"large_straight"</span>: score_large_straight,</span>
+<span id="cb58-14"><a href="#cb58-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"full_house"</span>: score_full_house,</span>
+<span id="cb58-15"><a href="#cb58-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"chance"</span>: <span class="kw">lambda</span> x: <span class="bu">sum</span>(x),</span>
+<span id="cb58-16"><a href="#cb58-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"yatzy"</span>: score_yatzy,</span>
+<span id="cb58-17"><a href="#cb58-17" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="c8079a0b" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>available_actions</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre><code>[Action(type='reroll', value=(0, 0, 0, 0, 0)),
+ Action(type='reroll', value=(0, 0, 0, 0, 1)),
+ Action(type='reroll', value=(0, 0, 0, 1, 1)),
+ Action(type='reroll', value=(0, 0, 1, 1, 1)),
+ Action(type='reroll', value=(0, 1, 1, 1, 1)),
+ Action(type='reroll', value=(1, 1, 1, 1, 1))]</code></pre>
+</div>
+</div>
+<div id="45eea0f2" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> cat <span class="kw">in</span> can_zero:</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>    available_actions.append(Action(<span class="bu">type</span><span class="op">=</span><span class="st">"zero"</span>, value<span class="op">=</span>cat))</span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>    can_select <span class="op">=</span> checkers[cat](state.dice_values)</span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> can_select:</span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>        available_actions.append(Action(<span class="bu">type</span><span class="op">=</span><span class="st">"score"</span>, value<span class="op">=</span>cat))</span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>available_actions</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre><code>[Action(type='reroll', value=(0, 0, 0, 0, 0)),
+ Action(type='reroll', value=(0, 0, 0, 0, 1)),
+ Action(type='reroll', value=(0, 0, 0, 1, 1)),
+ Action(type='reroll', value=(0, 0, 1, 1, 1)),
+ Action(type='reroll', value=(0, 1, 1, 1, 1)),
+ Action(type='reroll', value=(1, 1, 1, 1, 1)),
+ Action(type='zero', value='two_pairs'),
+ Action(type='zero', value='threes'),
+ Action(type='score', value='threes'),
+ Action(type='zero', value='small_straight'),
+ Action(type='score', value='small_straight'),
+ Action(type='zero', value='fours'),
+ Action(type='score', value='fours'),
+ Action(type='zero', value='four_same'),
+ Action(type='zero', value='one_pair'),
+ Action(type='zero', value='twos'),
+ Action(type='score', value='twos'),
+ Action(type='zero', value='ones'),
+ Action(type='score', value='ones'),
+ Action(type='zero', value='sixes'),
+ Action(type='zero', value='three_same'),
+ Action(type='zero', value='full_house'),
+ Action(type='zero', value='fives'),
+ Action(type='score', value='fives')]</code></pre>
+</div>
+</div>
+<p>Thats all actions I think for state. I need to stop and gather all my work together. I’m interested in Jeremy Howards nbdev approach. He keeps code in notebooks as literate programming. Basically coming up with the solutions is part of that, but the notebooks he has are very clean and straightforward. I guess he cleans them up thoroughly. How should I approach cleaning up this notebook to practice nbdev/solveit approach?</p>
+</section>
+<section id="reply-17" class="level5">
+<h5 class="anchored" data-anchor-id="reply-17">🤖Reply🤖<!-- SOLVEIT_SEPARATOR_7f3a9b2c --></h5>
+<p>Great progress! You’ve got all the key pieces working. For cleaning up in the nbdev/literate programming style, here’s an approach:</p>
+<p><strong>Key principles:</strong> - Tell a story - each cell should build logically on the previous - Remove exploration/dead ends - keep only the path that works - Add explanatory text (in note cells) between code sections - Group related functions together - Show examples/tests that demonstrate how things work</p>
+<p><strong>Suggested structure for your notebook:</strong></p>
+<ol type="1">
+<li>Introduction note - what you’re building and why</li>
+<li>State and Action definitions (your dataclasses)</li>
+<li>Category setup (the category set)</li>
+<li>Helper functions (has_ns, n_same, has_n_same, etc.)</li>
+<li>Pattern checkers (two_pairs, full_house, straights)</li>
+<li>Scoring functions</li>
+<li>Checker and scorer dictionaries</li>
+<li>Available actions function (combining your logic)</li>
+<li>Examples showing it working</li>
+</ol>
+<p>Would you like to start by identifying which cells to keep vs.&nbsp;remove, or would you prefer guidance on how to add narrative notes between sections?</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/ranzuh\.github\.io\/yatzy");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ranzuh/yatzy/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>

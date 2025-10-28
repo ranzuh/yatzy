@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Yatzy RL environment – yatzy</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-000f0825b9c55ed21d14970d810c14a9.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+<meta property="og:title" content="Yatzy RL environment – yatzy">
+<meta property="og:description" content="custom yatzy rl environment">
+<meta property="og:site_name" content="yatzy">
+<meta name="twitter:title" content="Yatzy RL environment – yatzy">
+<meta name="twitter:description" content="custom yatzy rl environment">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    </a>
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">yatzy</span>
+    </a>
+  </div>
+        <div class="quarto-navbar-tools tools-end">
+</div>
+          <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./yatzy_dup1.html">Yatzy RL environment</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">yatzy</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./core.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">core</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./yatzy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">or</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./yatzy_dup1.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Yatzy RL environment</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#roll_n_dice" id="toc-roll_n_dice" class="nav-link active" data-scroll-target="#roll_n_dice">roll_n_dice</a></li>
+  <li><a href="#planning-more-about-how-to-represent-state-and-actions" id="toc-planning-more-about-how-to-represent-state-and-actions" class="nav-link" data-scroll-target="#planning-more-about-how-to-represent-state-and-actions">Planning more about how to represent state and actions</a></li>
+  <li><a href="#back-to-implementing" id="toc-back-to-implementing" class="nav-link" data-scroll-target="#back-to-implementing">Back to implementing</a>
+  <ul class="collapse">
+  <li><a href="#state" id="toc-state" class="nav-link" data-scroll-target="#state">State</a></li>
+  <li><a href="#action" id="toc-action" class="nav-link" data-scroll-target="#action">Action</a></li>
+  <li><a href="#score_ns" id="toc-score_ns" class="nav-link" data-scroll-target="#score_ns">score_ns</a></li>
+  <li><a href="#score_n_same" id="toc-score_n_same" class="nav-link" data-scroll-target="#score_n_same">score_n_same</a></li>
+  <li><a href="#n_same" id="toc-n_same" class="nav-link" data-scroll-target="#n_same">n_same</a></li>
+  <li><a href="#score_two_pairs" id="toc-score_two_pairs" class="nav-link" data-scroll-target="#score_two_pairs">score_two_pairs</a></li>
+  <li><a href="#score_full_house" id="toc-score_full_house" class="nav-link" data-scroll-target="#score_full_house">score_full_house</a></li>
+  <li><a href="#score_large_straight" id="toc-score_large_straight" class="nav-link" data-scroll-target="#score_large_straight">score_large_straight</a></li>
+  <li><a href="#score_small_straight" id="toc-score_small_straight" class="nav-link" data-scroll-target="#score_small_straight">score_small_straight</a></li>
+  <li><a href="#get_available_actions" id="toc-get_available_actions" class="nav-link" data-scroll-target="#get_available_actions">get_available_actions</a></li>
+  <li><a href="#reroll_masked" id="toc-reroll_masked" class="nav-link" data-scroll-target="#reroll_masked">reroll_masked</a></li>
+  <li><a href="#transition_func" id="toc-transition_func" class="nav-link" data-scroll-target="#transition_func">transition_func</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/ranzuh/yatzy/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="yatzy_dup1.html.md"><i class="bi bi-file-code"></i>CommonMark</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Yatzy RL environment</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<!-- WARNING: THIS FILE WAS AUTOGENERATED! DO NOT EDIT! -->
+<p>Yatzy program to play with and get policy and probabilities</p>
+<p><strong>Features</strong></p>
+<ul>
+<li>single player setting to start with</li>
+<li>encoding state</li>
+<li>transition function for rules</li>
+<li>checking terminal state and computing reward</li>
+<li>actions to roll dice and select categories</li>
+<li>value iteration to compute value function / policy</li>
+<li>scorecard - which categories are used</li>
+<li>check if category can be used</li>
+</ul>
+<p><strong>Getting probabilities</strong></p>
+<p>Value iteration framework naturally gives us expected values (average scores), but if we want the full probability distribution of outcomes, we have a couple of options:</p>
+<ul>
+<li>Extend our existing transition function - Since we’re already building transitions (state → action → next state), we can track probabilities through these transitions. This is essentially using the Markov chain structure we’re already creating.</li>
+<li>Monte Carlo simulation - Once we have our optimal policy, we can run many simulations and collect the distribution of final scores empirically.</li>
+</ul>
+<p>The first approach is more exact but computationally intensive. The second is simpler to implement and often sufficient.</p>
+<p>I’ve decided on following <strong>state representation</strong></p>
+<ul>
+<li><strong>Current dice values</strong> - a sorted tuple (1, 2, 3, 3, 5)</li>
+<li><strong>Rolls left</strong> - int - determines whether we can reroll or must score</li>
+<li><strong>Filled categories</strong> - frozenset of strings - determines which scoring options are still available</li>
+</ul>
+<p><strong>Value function</strong> could be a dict:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># V = {state: value}</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>state <span class="op">=</span> (dice, rolls, categories)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>value <span class="op">=</span> V[state]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Plan to Start:</strong></p>
+<ol type="1">
+<li>Define the 15 category names (as strings for frozenset)</li>
+<li>Write scoring functions for each category</li>
+<li>Implement dice rolling and state transitions</li>
+<li>Define valid actions (which dice to keep, which category to score)</li>
+<li>Build value iteration algorithm</li>
+<li>Test and iterate</li>
+</ol>
+<div id="1855ea38" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>categories</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre><code>frozenset({'chance',
+           'fives',
+           'four_same',
+           'fours',
+           'full_house',
+           'large_straight',
+           'one_pair',
+           'ones',
+           'sixes',
+           'small_straight',
+           'three_same',
+           'threes',
+           'two_pairs',
+           'twos',
+           'yatzy'})</code></pre>
+</div>
+</div>
+<div id="726be0cd" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dice values</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>dice_vals <span class="op">=</span> [<span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">1</span>]</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>sorted_vals <span class="op">=</span> <span class="bu">tuple</span>(<span class="bu">sorted</span>(dice_vals))</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>sorted_vals</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre><code>(1, 2, 3, 4, 5)</code></pre>
+</div>
+</div>
+<div id="dfc50c01" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>score <span class="op">=</span> <span class="bu">sum</span>(sorted_vals)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>score</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre><code>15</code></pre>
+</div>
+</div>
+<div id="c07289ed" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>random.choices([<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>], k<span class="op">=</span><span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre><code>[3, 1, 6, 3, 4]</code></pre>
+</div>
+</div>
+<hr>
+<p><a href="https://github.com/ranzuh/yatzy/blob/master/yatzy/yatzy.py#L38" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<section id="roll_n_dice" class="level3">
+<h3 class="anchored" data-anchor-id="roll_n_dice">roll_n_dice</h3>
+<blockquote class="blockquote">
+<pre><code> roll_n_dice (n)</code></pre>
+</blockquote>
+<div id="2b5c2c65" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>roll_n_dice(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre><code>[2, 1, 4, 2, 5]</code></pre>
+</div>
+</div>
+</section>
+<section id="planning-more-about-how-to-represent-state-and-actions" class="level2">
+<h2 class="anchored" data-anchor-id="planning-more-about-how-to-represent-state-and-actions">Planning more about how to represent state and actions</h2>
+<p>Okay, thinking about actions.</p>
+<p>I would have 2 rolls left.</p>
+<p>I can choose what dices to hold and which to re-roll. So basically 5 long binary word.</p>
+<p>I can also choose small straight category, but no chance as its taken already.</p>
+<p>I can also choose to set zero to any category that I’ve not taken already.</p>
+<p>so action could be like</p>
+<pre><code>action = [00000, "small_straight", None]
+# or
+action = [11000, None, None]
+# or
+action = [00000, None, "ones"]</code></pre>
+<p>I need to have a function to compute possible actions. * allow re-roll if “rolls left” is &gt; 0 * check which categories can be selected * which categories could be set to zero</p>
+</section>
+<section id="back-to-implementing" class="level2">
+<h2 class="anchored" data-anchor-id="back-to-implementing">Back to implementing</h2>
+<hr>
+<p><a href="https://github.com/ranzuh/yatzy/blob/master/yatzy/yatzy.py#L43" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<section id="state" class="level3">
+<h3 class="anchored" data-anchor-id="state">State</h3>
+<blockquote class="blockquote">
+<pre><code> State (dice_values:tuple[int,...], rolls_left:int,
+        categories_picked:frozenset[str])</code></pre>
+</blockquote>
+<div id="a80fa5d2" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>state <span class="op">=</span> State((<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>), <span class="dv">2</span>, <span class="bu">frozenset</span>({<span class="st">'chance'</span>, <span class="st">'large_straight'</span>, <span class="st">'yatzy'</span>}))</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>state</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre><code>State(dice_values=(1, 2, 3, 4, 5), rolls_left=2, categories_picked=frozenset({'chance', 'large_straight', 'yatzy'}))</code></pre>
+</div>
+</div>
+<hr>
+<p><a href="https://github.com/ranzuh/yatzy/blob/master/yatzy/yatzy.py#L50" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="action" class="level3">
+<h3 class="anchored" data-anchor-id="action">Action</h3>
+<blockquote class="blockquote">
+<pre><code> Action (type:Literal['reroll','score'], value:tuple[int,...]|str)</code></pre>
+</blockquote>
+<div id="eabd10c9" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>Action(<span class="st">"reroll"</span>, (<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre><code>Action(type='reroll', value=(0, 0, 1, 0, 0))</code></pre>
+</div>
+</div>
+<div id="7ca0e0e2" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>Action(<span class="st">"score"</span>, <span class="st">"ones"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre><code>Action(type='score', value='ones')</code></pre>
+</div>
+</div>
+<div id="bd3d3659" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>reroll_masks</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre><code>[(0, 0, 0, 0, 0),
+ (0, 0, 0, 0, 1),
+ (0, 0, 0, 1, 0),
+ (0, 0, 0, 1, 1),
+ (0, 0, 1, 0, 0),
+ (0, 0, 1, 0, 1),
+ (0, 0, 1, 1, 0),
+ (0, 0, 1, 1, 1),
+ (0, 1, 0, 0, 0),
+ (0, 1, 0, 0, 1),
+ (0, 1, 0, 1, 0),
+ (0, 1, 0, 1, 1),
+ (0, 1, 1, 0, 0),
+ (0, 1, 1, 0, 1),
+ (0, 1, 1, 1, 0),
+ (0, 1, 1, 1, 1),
+ (1, 0, 0, 0, 0),
+ (1, 0, 0, 0, 1),
+ (1, 0, 0, 1, 0),
+ (1, 0, 0, 1, 1),
+ (1, 0, 1, 0, 0),
+ (1, 0, 1, 0, 1),
+ (1, 0, 1, 1, 0),
+ (1, 0, 1, 1, 1),
+ (1, 1, 0, 0, 0),
+ (1, 1, 0, 0, 1),
+ (1, 1, 0, 1, 0),
+ (1, 1, 0, 1, 1),
+ (1, 1, 1, 0, 0),
+ (1, 1, 1, 0, 1),
+ (1, 1, 1, 1, 0),
+ (1, 1, 1, 1, 1)]</code></pre>
+</div>
+</div>
+<div id="d52000ff" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>available_actions <span class="op">=</span> []</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> state.rolls_left <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    rerolls <span class="op">=</span> [Action(<span class="st">"reroll"</span>, mask) <span class="cf">for</span> mask <span class="kw">in</span> reroll_masks]</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    available_actions.extend(rerolls)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>available_actions</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre><code>[Action(type='reroll', value=(0, 0, 0, 0, 0)),
+ Action(type='reroll', value=(0, 0, 0, 0, 1)),
+ Action(type='reroll', value=(0, 0, 0, 1, 0)),
+ Action(type='reroll', value=(0, 0, 0, 1, 1)),
+ Action(type='reroll', value=(0, 0, 1, 0, 0)),
+ Action(type='reroll', value=(0, 0, 1, 0, 1)),
+ Action(type='reroll', value=(0, 0, 1, 1, 0)),
+ Action(type='reroll', value=(0, 0, 1, 1, 1)),
+ Action(type='reroll', value=(0, 1, 0, 0, 0)),
+ Action(type='reroll', value=(0, 1, 0, 0, 1)),
+ Action(type='reroll', value=(0, 1, 0, 1, 0)),
+ Action(type='reroll', value=(0, 1, 0, 1, 1)),
+ Action(type='reroll', value=(0, 1, 1, 0, 0)),
+ Action(type='reroll', value=(0, 1, 1, 0, 1)),
+ Action(type='reroll', value=(0, 1, 1, 1, 0)),
+ Action(type='reroll', value=(0, 1, 1, 1, 1)),
+ Action(type='reroll', value=(1, 0, 0, 0, 0)),
+ Action(type='reroll', value=(1, 0, 0, 0, 1)),
+ Action(type='reroll', value=(1, 0, 0, 1, 0)),
+ Action(type='reroll', value=(1, 0, 0, 1, 1)),
+ Action(type='reroll', value=(1, 0, 1, 0, 0)),
+ Action(type='reroll', value=(1, 0, 1, 0, 1)),
+ Action(type='reroll', value=(1, 0, 1, 1, 0)),
+ Action(type='reroll', value=(1, 0, 1, 1, 1)),
+ Action(type='reroll', value=(1, 1, 0, 0, 0)),
+ Action(type='reroll', value=(1, 1, 0, 0, 1)),
+ Action(type='reroll', value=(1, 1, 0, 1, 0)),
+ Action(type='reroll', value=(1, 1, 0, 1, 1)),
+ Action(type='reroll', value=(1, 1, 1, 0, 0)),
+ Action(type='reroll', value=(1, 1, 1, 0, 1)),
+ Action(type='reroll', value=(1, 1, 1, 1, 0)),
+ Action(type='reroll', value=(1, 1, 1, 1, 1))]</code></pre>
+</div>
+</div>
+<div id="6f0191fa" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>can_select <span class="op">=</span> categories <span class="op">-</span> state.categories_picked</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>can_select</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre><code>frozenset({'fives',
+           'four_same',
+           'fours',
+           'full_house',
+           'one_pair',
+           'ones',
+           'sixes',
+           'small_straight',
+           'three_same',
+           'threes',
+           'two_pairs',
+           'twos'})</code></pre>
+</div>
+</div>
+<hr>
+<p><a href="https://github.com/ranzuh/yatzy/blob/master/yatzy/yatzy.py#L58" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="score_ns" class="level3">
+<h3 class="anchored" data-anchor-id="score_ns">score_ns</h3>
+<blockquote class="blockquote">
+<pre><code> score_ns (n, values)</code></pre>
+</blockquote>
+<hr>
+<p><a href="https://github.com/ranzuh/yatzy/blob/master/yatzy/yatzy.py#L73" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="score_n_same" class="level3">
+<h3 class="anchored" data-anchor-id="score_n_same">score_n_same</h3>
+<blockquote class="blockquote">
+<pre><code> score_n_same (n, values)</code></pre>
+</blockquote>
+<hr>
+<p><a href="https://github.com/ranzuh/yatzy/blob/master/yatzy/yatzy.py#L66" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="n_same" class="level3">
+<h3 class="anchored" data-anchor-id="n_same">n_same</h3>
+<blockquote class="blockquote">
+<pre><code> n_same (n, values)</code></pre>
+</blockquote>
+<hr>
+<p><a href="https://github.com/ranzuh/yatzy/blob/master/yatzy/yatzy.py#L82" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="score_two_pairs" class="level3">
+<h3 class="anchored" data-anchor-id="score_two_pairs">score_two_pairs</h3>
+<blockquote class="blockquote">
+<pre><code> score_two_pairs (values)</code></pre>
+</blockquote>
+<hr>
+<p><a href="https://github.com/ranzuh/yatzy/blob/master/yatzy/yatzy.py#L93" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="score_full_house" class="level3">
+<h3 class="anchored" data-anchor-id="score_full_house">score_full_house</h3>
+<blockquote class="blockquote">
+<pre><code> score_full_house (values)</code></pre>
+</blockquote>
+<hr>
+<p><a href="https://github.com/ranzuh/yatzy/blob/master/yatzy/yatzy.py#L108" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="score_large_straight" class="level3">
+<h3 class="anchored" data-anchor-id="score_large_straight">score_large_straight</h3>
+<blockquote class="blockquote">
+<pre><code> score_large_straight (values)</code></pre>
+</blockquote>
+<hr>
+<p><a href="https://github.com/ranzuh/yatzy/blob/master/yatzy/yatzy.py#L105" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="score_small_straight" class="level3">
+<h3 class="anchored" data-anchor-id="score_small_straight">score_small_straight</h3>
+<blockquote class="blockquote">
+<pre><code> score_small_straight (values)</code></pre>
+</blockquote>
+<div id="3c703b93" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> category <span class="kw">in</span> can_select:</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>    score <span class="op">=</span> score_fn[category](state.dice_values)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(category, score)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>four_same 0
+three_same 0
+threes 3
+small_straight 15
+fours 4
+fives 5
+sixes 0
+ones 1
+one_pair 0
+two_pairs 0
+full_house 0
+twos 2</code></pre>
+</div>
+</div>
+<div id="c8079a0b" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>available_actions</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre><code>[Action(type='reroll', value=(0, 0, 0, 0, 0)),
+ Action(type='reroll', value=(0, 0, 0, 0, 1)),
+ Action(type='reroll', value=(0, 0, 0, 1, 0)),
+ Action(type='reroll', value=(0, 0, 0, 1, 1)),
+ Action(type='reroll', value=(0, 0, 1, 0, 0)),
+ Action(type='reroll', value=(0, 0, 1, 0, 1)),
+ Action(type='reroll', value=(0, 0, 1, 1, 0)),
+ Action(type='reroll', value=(0, 0, 1, 1, 1)),
+ Action(type='reroll', value=(0, 1, 0, 0, 0)),
+ Action(type='reroll', value=(0, 1, 0, 0, 1)),
+ Action(type='reroll', value=(0, 1, 0, 1, 0)),
+ Action(type='reroll', value=(0, 1, 0, 1, 1)),
+ Action(type='reroll', value=(0, 1, 1, 0, 0)),
+ Action(type='reroll', value=(0, 1, 1, 0, 1)),
+ Action(type='reroll', value=(0, 1, 1, 1, 0)),
+ Action(type='reroll', value=(0, 1, 1, 1, 1)),
+ Action(type='reroll', value=(1, 0, 0, 0, 0)),
+ Action(type='reroll', value=(1, 0, 0, 0, 1)),
+ Action(type='reroll', value=(1, 0, 0, 1, 0)),
+ Action(type='reroll', value=(1, 0, 0, 1, 1)),
+ Action(type='reroll', value=(1, 0, 1, 0, 0)),
+ Action(type='reroll', value=(1, 0, 1, 0, 1)),
+ Action(type='reroll', value=(1, 0, 1, 1, 0)),
+ Action(type='reroll', value=(1, 0, 1, 1, 1)),
+ Action(type='reroll', value=(1, 1, 0, 0, 0)),
+ Action(type='reroll', value=(1, 1, 0, 0, 1)),
+ Action(type='reroll', value=(1, 1, 0, 1, 0)),
+ Action(type='reroll', value=(1, 1, 0, 1, 1)),
+ Action(type='reroll', value=(1, 1, 1, 0, 0)),
+ Action(type='reroll', value=(1, 1, 1, 0, 1)),
+ Action(type='reroll', value=(1, 1, 1, 1, 0)),
+ Action(type='reroll', value=(1, 1, 1, 1, 1))]</code></pre>
+</div>
+</div>
+<div id="45eea0f2" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> cat <span class="kw">in</span> can_select:</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>    score <span class="op">=</span> score_fn[cat](state.dice_values)</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    available_actions.append(Action(<span class="bu">type</span><span class="op">=</span><span class="st">"score"</span>, value<span class="op">=</span>cat))</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>available_actions</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre><code>[Action(type='reroll', value=(0, 0, 0, 0, 0)),
+ Action(type='reroll', value=(0, 0, 0, 0, 1)),
+ Action(type='reroll', value=(0, 0, 0, 1, 0)),
+ Action(type='reroll', value=(0, 0, 0, 1, 1)),
+ Action(type='reroll', value=(0, 0, 1, 0, 0)),
+ Action(type='reroll', value=(0, 0, 1, 0, 1)),
+ Action(type='reroll', value=(0, 0, 1, 1, 0)),
+ Action(type='reroll', value=(0, 0, 1, 1, 1)),
+ Action(type='reroll', value=(0, 1, 0, 0, 0)),
+ Action(type='reroll', value=(0, 1, 0, 0, 1)),
+ Action(type='reroll', value=(0, 1, 0, 1, 0)),
+ Action(type='reroll', value=(0, 1, 0, 1, 1)),
+ Action(type='reroll', value=(0, 1, 1, 0, 0)),
+ Action(type='reroll', value=(0, 1, 1, 0, 1)),
+ Action(type='reroll', value=(0, 1, 1, 1, 0)),
+ Action(type='reroll', value=(0, 1, 1, 1, 1)),
+ Action(type='reroll', value=(1, 0, 0, 0, 0)),
+ Action(type='reroll', value=(1, 0, 0, 0, 1)),
+ Action(type='reroll', value=(1, 0, 0, 1, 0)),
+ Action(type='reroll', value=(1, 0, 0, 1, 1)),
+ Action(type='reroll', value=(1, 0, 1, 0, 0)),
+ Action(type='reroll', value=(1, 0, 1, 0, 1)),
+ Action(type='reroll', value=(1, 0, 1, 1, 0)),
+ Action(type='reroll', value=(1, 0, 1, 1, 1)),
+ Action(type='reroll', value=(1, 1, 0, 0, 0)),
+ Action(type='reroll', value=(1, 1, 0, 0, 1)),
+ Action(type='reroll', value=(1, 1, 0, 1, 0)),
+ Action(type='reroll', value=(1, 1, 0, 1, 1)),
+ Action(type='reroll', value=(1, 1, 1, 0, 0)),
+ Action(type='reroll', value=(1, 1, 1, 0, 1)),
+ Action(type='reroll', value=(1, 1, 1, 1, 0)),
+ Action(type='reroll', value=(1, 1, 1, 1, 1)),
+ Action(type='score', value='four_same'),
+ Action(type='score', value='three_same'),
+ Action(type='score', value='threes'),
+ Action(type='score', value='small_straight'),
+ Action(type='score', value='fours'),
+ Action(type='score', value='fives'),
+ Action(type='score', value='sixes'),
+ Action(type='score', value='ones'),
+ Action(type='score', value='one_pair'),
+ Action(type='score', value='two_pairs'),
+ Action(type='score', value='full_house'),
+ Action(type='score', value='twos')]</code></pre>
+</div>
+</div>
+<hr>
+<p><a href="https://github.com/ranzuh/yatzy/blob/master/yatzy/yatzy.py#L134" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="get_available_actions" class="level3">
+<h3 class="anchored" data-anchor-id="get_available_actions">get_available_actions</h3>
+<blockquote class="blockquote">
+<pre><code> get_available_actions (state:__main__.State)</code></pre>
+</blockquote>
+<div id="29a7a541" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>get_available_actions(state)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre><code>[Action(type='reroll', value=(0, 0, 0, 0, 0)),
+ Action(type='reroll', value=(0, 0, 0, 0, 1)),
+ Action(type='reroll', value=(0, 0, 0, 1, 0)),
+ Action(type='reroll', value=(0, 0, 0, 1, 1)),
+ Action(type='reroll', value=(0, 0, 1, 0, 0)),
+ Action(type='reroll', value=(0, 0, 1, 0, 1)),
+ Action(type='reroll', value=(0, 0, 1, 1, 0)),
+ Action(type='reroll', value=(0, 0, 1, 1, 1)),
+ Action(type='reroll', value=(0, 1, 0, 0, 0)),
+ Action(type='reroll', value=(0, 1, 0, 0, 1)),
+ Action(type='reroll', value=(0, 1, 0, 1, 0)),
+ Action(type='reroll', value=(0, 1, 0, 1, 1)),
+ Action(type='reroll', value=(0, 1, 1, 0, 0)),
+ Action(type='reroll', value=(0, 1, 1, 0, 1)),
+ Action(type='reroll', value=(0, 1, 1, 1, 0)),
+ Action(type='reroll', value=(0, 1, 1, 1, 1)),
+ Action(type='reroll', value=(1, 0, 0, 0, 0)),
+ Action(type='reroll', value=(1, 0, 0, 0, 1)),
+ Action(type='reroll', value=(1, 0, 0, 1, 0)),
+ Action(type='reroll', value=(1, 0, 0, 1, 1)),
+ Action(type='reroll', value=(1, 0, 1, 0, 0)),
+ Action(type='reroll', value=(1, 0, 1, 0, 1)),
+ Action(type='reroll', value=(1, 0, 1, 1, 0)),
+ Action(type='reroll', value=(1, 0, 1, 1, 1)),
+ Action(type='reroll', value=(1, 1, 0, 0, 0)),
+ Action(type='reroll', value=(1, 1, 0, 0, 1)),
+ Action(type='reroll', value=(1, 1, 0, 1, 0)),
+ Action(type='reroll', value=(1, 1, 0, 1, 1)),
+ Action(type='reroll', value=(1, 1, 1, 0, 0)),
+ Action(type='reroll', value=(1, 1, 1, 0, 1)),
+ Action(type='reroll', value=(1, 1, 1, 1, 0)),
+ Action(type='reroll', value=(1, 1, 1, 1, 1)),
+ Action(type='score', value='four_same'),
+ Action(type='score', value='three_same'),
+ Action(type='score', value='threes'),
+ Action(type='score', value='small_straight'),
+ Action(type='score', value='fours'),
+ Action(type='score', value='fives'),
+ Action(type='score', value='sixes'),
+ Action(type='score', value='ones'),
+ Action(type='score', value='one_pair'),
+ Action(type='score', value='two_pairs'),
+ Action(type='score', value='full_house'),
+ Action(type='score', value='twos')]</code></pre>
+</div>
+</div>
+<p><strong>What I have</strong></p>
+<ul>
+<li>state representation</li>
+<li>action representation</li>
+<li>categories</li>
+<li>dice rolling</li>
+<li>functions to check if dice values fit category</li>
+<li>available actions function</li>
+</ul>
+<p><strong>What is missing</strong> * transition function * logic for reroll * logic for selecting zeroing categories</p>
+<p><strong>Transition function</strong></p>
+<p>state + action –&gt; next state</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>next_state <span class="op">=</span> transition_func(state, action)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>What transitions are there?</strong></p>
+<p>Action types: * reroll * zero * score</p>
+<p><strong>reroll</strong> * reroll the dice according to mask * set new dice to state * decrement rolls left</p>
+<p><strong>zero</strong> * set the category as selected * check wheter categories left and set terminal state if not any left * reroll whole dice * reset rolls left to 2</p>
+<p><strong>score</strong> * compute score * set the category as selected * add score to scoreboard or total sum * check wheter categories left and set terminal state if not any left * reroll whole dice * reset rolls left to 2</p>
+<p>Let’s have a state and action to work with.</p>
+<div id="3d1301e2" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>state</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre><code>State(dice_values=(1, 2, 3, 4, 5), rolls_left=2, categories_picked=frozenset({'chance', 'large_straight', 'yatzy'}))</code></pre>
+</div>
+</div>
+<div id="72b65d07" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>action <span class="op">=</span> Action(<span class="bu">type</span><span class="op">=</span><span class="st">'reroll'</span>, value<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>))</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>action</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre><code>Action(type='reroll', value=(1, 1, 1, 0, 0))</code></pre>
+</div>
+</div>
+<p>What it would mean to transition to next state given this state and action?</p>
+<hr>
+<p><a href="https://github.com/ranzuh/yatzy/blob/master/yatzy/yatzy.py#L149" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="reroll_masked" class="level3">
+<h3 class="anchored" data-anchor-id="reroll_masked">reroll_masked</h3>
+<blockquote class="blockquote">
+<pre><code> reroll_masked (values, mask)</code></pre>
+</blockquote>
+<div id="68d97df2" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>reroll_masked((<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>), (<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre><code>(4, 4, 5, 5, 6)</code></pre>
+</div>
+</div>
+<hr>
+<p><a href="https://github.com/ranzuh/yatzy/blob/master/yatzy/yatzy.py#L158" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="transition_func" class="level3">
+<h3 class="anchored" data-anchor-id="transition_func">transition_func</h3>
+<blockquote class="blockquote">
+<pre><code> transition_func (state:__main__.State, action:__main__.Action)</code></pre>
+</blockquote>
+<div id="a68796d1" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>transition_func(state, action)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre><code>State(dice_values=(1, 2, 3, 4, 5), rolls_left=1, categories_picked=frozenset({'chance', 'large_straight', 'yatzy'}))</code></pre>
+</div>
+</div>
+<div id="8c796125" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>transition_func(state, Action(<span class="st">"score"</span>, <span class="st">"ones"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre><code>State(dice_values=(1, 2, 2, 6, 6), rolls_left=2, categories_picked=frozenset({'chance', 'ones', 'large_straight', 'yatzy'}))</code></pre>
+</div>
+</div>
+<p>state = State(sorted(roll_n_dice(5)), 2, frozenset()) while True: actions = get_available_actions(state) # for i, action in enumerate(actions): print(i, action) print(f”State: {state}, choose action (i) or quit (q)“) inp = input(”&gt;“) if inp ==”q”: break</p>
+<pre><code>if inp.isdigit():
+    action = Action("reroll", tuple(int(i) for i in inp))
+else:
+    action = Action("score", inp)
+
+assert action in actions
+
+# idx = int(inp)
+state = transition_func(state, action)</code></pre>
+<div id="d4bab96c" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>cat yatzy<span class="op">/</span>yatzy.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># AUTOGENERATED! DO NOT EDIT! File to edit: ../nbs/yatzy_dup1.ipynb.
+
+# %% auto 0
+__all__ = ['categories', 'reroll_masks', 'checkers', 'roll_n_dice', 'State', 'Action', 'has_ns', 'n_same', 'has_n_same',
+           'has_two_pairs', 'has_full_house', 'has_small_straight', 'has_large_straight', 'get_available_actions',
+           'reroll_masked', 'transition_func']
+
+# %% ../nbs/yatzy_dup1.ipynb 5
+import random
+from dataclasses import dataclass
+from typing import Literal
+import itertools
+from collections import Counter
+from functools import partial
+
+# %% ../nbs/yatzy_dup1.ipynb 6
+# categories
+
+categories = frozenset([
+    "ones",
+    "twos",
+    "threes",
+    "fours",
+    "fives",
+    "sixes",
+    "one_pair",
+    "two_pairs",
+    "three_same",
+    "four_same",
+    "small_straight",
+    "large_straight",
+    "full_house",
+    "chance",
+    "yatzy",
+])
+
+# %% ../nbs/yatzy_dup1.ipynb 11
+def roll_n_dice(n):
+    return random.choices([1,2,3,4,5,6], k=n)
+
+# %% ../nbs/yatzy_dup1.ipynb 16
+@dataclass
+class State:
+    dice_values: tuple[int, ...]
+    rolls_left: int
+    categories_picked: frozenset[str]
+
+# %% ../nbs/yatzy_dup1.ipynb 18
+@dataclass
+class Action:
+    type: Literal["reroll", "score", "zero"]
+    value: tuple[int, ...] | str
+
+# %% ../nbs/yatzy_dup1.ipynb 20
+reroll_masks = list(itertools.product((0,1), repeat=5))
+
+# %% ../nbs/yatzy_dup1.ipynb 33
+def has_ns(n, values):
+    return n in values
+
+assert has_ns(3, (1,2,3,4,5))
+assert not has_ns(6, (1,2,3,4,5))
+
+def n_same(n, values):
+    counts = Counter(values)
+    return [k for k, v in counts.items() if v &gt;= n]
+
+assert n_same(2, (1,2,2,3,3)) == [2, 3]
+
+def has_n_same(n, values):
+    return bool(n_same(n, values))
+
+def has_two_pairs(values):
+    pairs = n_same(2, values)
+    if len(pairs) == 2:
+        return True
+    return False
+
+assert has_two_pairs((1,1,2,2,3))
+assert not has_two_pairs((1,1,2,3,4))
+assert not has_two_pairs((1,1,1,1,2))
+
+def has_full_house(values):
+    pairs = n_same(2, values)
+    three_sames = n_same(3, values)
+    if pairs and three_sames:
+        pairs.remove(three_sames[0])
+        return len(pairs) &gt; 0
+    return False
+
+assert has_full_house((2,2,3,3,3))
+assert not has_full_house((1,2,3,3,3))
+
+def has_small_straight(values):
+    return values == (1,2,3,4,5)
+
+def has_large_straight(values):
+    return values == (2,3,4,5,6)
+
+# %% ../nbs/yatzy_dup1.ipynb 35
+checkers = {
+    "ones": partial(has_ns, 1),
+    "twos": partial(has_ns, 2),
+    "threes": partial(has_ns, 3),
+    "fours": partial(has_ns, 4),
+    "fives": partial(has_ns, 5),
+    "sixes": partial(has_ns, 6),
+    "one_pair": partial(has_n_same, 2),
+    "two_pairs": has_two_pairs,
+    "three_same": partial(has_n_same, 3),
+    "four_same": partial(has_n_same, 4),
+    "small_straight": has_small_straight,
+    "large_straight": has_large_straight,
+    "full_house": has_full_house,
+    "chance": lambda x: x, # ???
+    "yatzy": partial(n_same, 5),
+}
+
+# %% ../nbs/yatzy_dup1.ipynb 39
+def get_available_actions(state: State) -&gt; list[Action]:
+    available_actions = []
+    if state.rolls_left &gt; 0:
+        rerolls = [Action("reroll", mask) for mask in reroll_masks]
+        available_actions.extend(rerolls)
+    
+    can_zero = categories - state.categories_picked
+    for cat in can_zero:
+        available_actions.append(Action(type="zero", value=cat))
+        can_select = checkers[cat](state.dice_values)
+        if can_select:
+            available_actions.append(Action(type="score", value=cat))
+    
+    return available_actions
+
+# %% ../nbs/yatzy_dup1.ipynb 46
+def reroll_masked(values, mask):
+    next_values = list(values)
+    mask = action.value
+    reroll = roll_n_dice(5)
+    for i, bit in enumerate(mask):
+        if bit == 1:
+            next_values[i] = reroll[i]
+    return tuple(sorted(next_values))
+
+# %% ../nbs/yatzy_dup1.ipynb 48
+def transition_func(state: State, action: Action):
+    match action.type:
+        case "reroll":
+            assert state.rolls_left &gt; 0
+            new_values = reroll_masked(state.dice_values, action.value)
+            return State(new_values, state.rolls_left - 1, state.categories_picked)
+        case "score": ...
+        case "zero":
+            assert action.value not in state.categories_picked
+            new_categories = state.categories_picked | {action.value}
+            categories_left = categories - state.categories_picked
+            if not categories_left: return TERMINAL_STATE
+            new_values = tuple(sorted(roll_n_dice(5)))
+            return State(new_values, 2, frozenset(new_categories))</code></pre>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/ranzuh\.github\.io\/yatzy");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ranzuh/yatzy/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
